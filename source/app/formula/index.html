@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#15263e"><title>Apex Formula — Valle Sprint</title><link rel="stylesheet" href="./style.css"></head>
+<body>
+<canvas id="scene" aria-label="Formula car driving on Valle Circuit" tabindex="0"></canvas>
+<div id="loading" role="status"><div class="brand">APEX<span>FORMULA</span></div><div class="loading-line"></div><small>Getting your grid ready…</small></div>
+<main id="welcome">
+  <header class="menu-header"><div class="brand">APEX<span>FORMULA</span></div><div class="menu-tools"><span class="edition">VALLE SPRINT <i>2 LAPS</i></span><button id="menu-sound" class="icon-button" aria-label="Turn sound off">Sound on</button><button id="menu-settings" class="icon-button">Settings</button></div></header>
+  <div class="hero-copy"><span class="eyebrow">OPEN-WHEEL RACING</span><h1>EVERY GAP.<br><em>YOUR CHANCE.</em></h1><p>Find your line. Make your move.</p></div>
+  <section class="intro" aria-label="Race setup">
+    <div class="panel-label"><span class="live-dot"></span> READY TO RACE</div>
+    <div class="eyebrow">VALLE CIRCUIT · 2 LAPS / 4 DRIVERS</div>
+    <h2>Your next <em>victory.</em></h2>
+    <p>Three rivals. Two laps. One winner.</p>
+    <button id="drive" class="primary">RACE NOW <span aria-hidden="true">→</span></button>
+    <div class="desktop">Keyboard or gamepad · Desktop</div>
+    <div id="menu-secondary"></div>
+  </section>
+  <section class="car-info"><span>YOUR MACHINE</span><h2>AF–02 <small>OPEN WHEEL / RWD</small></h2></section>
+  <footer class="track-strip"><div class="track-identity"><svg id="track-preview" viewBox="0 0 240 180" aria-label="Valle Circuit layout"><path id="track-path"/></svg><div><b>VALLE CIRCUIT</b><span>Beat 3 rivals. Use boost on the straights.</span></div></div><div class="quick-controls"><b><kbd>W A S D</kbd> / <kbd>↑ ↓ ← →</kbd></b><span>Accelerate · Brake · Steer</span></div><div class="track-distance"><b id="trackLength">2 LAPS</b><span><kbd>SHIFT</kbd> Boost &nbsp; <kbd>P</kbd> Pause</span></div></footer>
+</main>
+<section id="hud" hidden aria-label="Race display">
+  <header><div class="brand">APEX<span>FORMULA</span></div><div class="session"><b>VALLE SPRINT</b><span>RACE IN PROGRESS</span></div><div class="top-controls"><button id="camera">Camera <kbd>C</kbd></button><button id="sound" aria-label="Turn sound off">SOUND ON</button><button id="race-settings">Settings</button><button id="pause">Pause <kbd>P</kbd></button></div></header>
+  <div class="session-clock"><span>RACE TIME</span><b id="clock">00:00</b><small id="distance">0.00 KM</small></div>
+  <div id="notice" role="status"></div>
+  <div class="minimap"><canvas id="map" width="240" height="180" aria-label="Circuit map and car position"></canvas><span>VALLE CIRCUIT</span></div>
+  <div class="instruments"><div class="readouts"><div class="gear"><span>GEAR</span><b id="gear">N</b></div><div class="speed"><b id="speed">000</b><span>KM/H</span></div></div><div class="rpm"><i id="rpm"></i></div><div class="pedals"><span>THROTTLE <i><b id="throttle"></b></i></span><span>BRAKE <i><b id="brake"></b></i></span></div><div class="surface"><b id="surface">ON TRACK</b><span id="view">T-CAM</span></div></div>
+  <div id="driving-help"><div><kbd>W</kbd><kbd>S</kbd><span>Gas / Brake</span></div><div><kbd>A</kbd><kbd>D</kbd><span>Steer</span></div><div><kbd>SHIFT</kbd><span>Boost</span></div><button id="dismiss-help" aria-label="Dismiss driving tips">×</button></div>
+  <div class="bottom-help">WASD / ARROWS · DRIVE &nbsp; R · RECOVER &nbsp; C · CAMERA &nbsp; P · PAUSE</div>
+</section>
+<div id="paused" hidden role="dialog" aria-modal="true" aria-labelledby="pause-title"><section><span class="eyebrow">PIT STOP</span><h2 id="pause-title">CATCH YOUR<br><em>BREATH.</em></h2><p>Your race is paused. Ready when you are.</p><button id="resume" class="primary">RESUME RACE <span>→</span></button><div class="pause-actions"><button id="restart" class="secondary">Restart race</button><button id="pause-settings" class="secondary">Settings</button></div><button id="exit" class="text-button">Back to race setup</button></section></div>
+<dialog id="game-settings" aria-labelledby="settings-title"><header class="dialog-header"><div><span class="eyebrow">MAKE IT YOURS</span><h2 id="settings-title">Race settings</h2></div><button id="settings-close" class="close-button" aria-label="Close settings">×</button></header><p>Adjust your assists. Find your rhythm.</p><div id="assist-controls"></div><p id="local-assists-note" hidden>Two-player races use automatic gears, ABS and traction control.</p><div class="settings-controls"><h3>Keyboard controls</h3><dl><div><dt>Accelerate / Brake</dt><dd><kbd>W / S</kbd> or <kbd>↑ / ↓</kbd></dd></div><div><dt>Steer</dt><dd><kbd>A / D</kbd> or <kbd>← / →</kbd></dd></div><div><dt>Boost / Recover</dt><dd><kbd>SHIFT</kbd> / <kbd>R</kbd></dd></div><div><dt>Camera / Pause</dt><dd><kbd>C</kbd> / <kbd>P</kbd></dd></div><div><dt>Manual gears</dt><dd><kbd>Q</kbd> down / <kbd>E</kbd> up</dd></div></dl></div><footer><button id="settings-controller" class="secondary">Controller settings</button><button id="settings-done" class="primary">DONE <span>✓</span></button></footer></dialog>
+<script type="module" src="./main.js"></script>
+</body></html>

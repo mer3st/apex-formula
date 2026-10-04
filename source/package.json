@@ -1,0 +1,49 @@
+{
+  "name": "apex-formula",
+  "productName": "Apex Formula",
+  "version": "1.0.0",
+  "description": "APEX FORMULA \u2014 offline desktop build with full gamepad support.",
+  "main": "main.js",
+  "author": "Apex Formula",
+  "license": "UNLICENSED",
+  "build": {
+    "appId": "com.apexformula.app",
+    "productName": "Apex Formula",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "native-rumble.js",
+      "app/**/*",
+      "build/icon.ico"
+    ],
+    "extraResources": [
+      {
+        "from": "native/RumbleHelper.exe",
+        "to": "native/RumbleHelper.exe"
+      }
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "ApexFormula-${version}-portable.${ext}"
+    },
+    "portable": {
+      "artifactName": "ApexFormula.exe"
+    },
+    "compression": "maximum"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build:native": "cmd /c native\\BUILD.cmd",
+    "dist": "npm run build:native && electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3"
+  }
+}

@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {TRACK} from '../source/app/formula/track.js';
+import {FormulaCar,FixedStep} from '../source/app/formula/physics.js';
+const run=(car,seconds,input)=>{for(let i=0;i<seconds*120;i++)car.step(1/120,input);};
+test('closed circuit wraps cleanly and nearest projection agrees with samples',()=>{assert.ok(TRACK.length>1500);for(let s=0;s<TRACK.length;s+=53){const p=TRACK.sample(s);assert.ok(TRACK.nearest(p.x,p.z).distance<.001);}assert.deepEqual(TRACK.sample(0),TRACK.sample(TRACK.length));});
+test('car remains still without throttle',()=>{const c=new FormulaCar(),x=c.x,z=c.z;run(c,4,{});assert.equal(c.speed,0);assert.equal(c.x,x);assert.equal(c.z,z);});
+test('throttle accelerates and brake brings car to a complete stop',()=>{const c=new FormulaCar();run(c,2,{throttle:true});assert.ok(c.speed>15&&c.speed<32);run(c,4,{brake:true});assert.ok(c.speed<.05);assert.ok(c.forwardSpeed>=0);});
+test('left and right turn into the requested side relative to an unsteered car',()=>{for(const [key,sign]of [['left',-1],['right',1]]){const c=new FormulaCar(),baseline=new FormulaCar();run(c,2,{throttle:true});run(baseline,2,{throttle:true});const rx=Math.cos(c.heading),rz=-Math.sin(c.heading);run(c,.7,{throttle:true,[key]:true});run(baseline,.7,{throttle:true});assert.ok(((c.x-baseline.x)*rx+(c.z-baseline.z)*rz)*sign>.1);}});
+test('runoff slows the car more than asphalt',()=>{const road=new FormulaCar(),grass=new FormulaCar();for(const c of [road,grass]){c.vz=-30;c.speed=30;}grass.x+=11;run(road,1,{});run(grass,1,{});assert.ok(grass.offTrack);assert.ok(grass.speed<road.speed-2);});
+test('recover puts the car on the centreline, aligned and stationary',()=>{const c=new FormulaCar();c.x+=12;run(c,.1,{});c.recover();assert.ok(TRACK.nearest(c.x,c.z).distance<.001);assert.equal(c.speed,0);assert.equal(c.heading,TRACK.sample(c.location.s).heading);});
+test('identical input produces identical simulation across display refresh rates',()=>{const results=[];for(const hz of [30,60,120,144,165]){const c=new FormulaCar(),clock=new FixedStep(dt=>c.step(dt,{throttle:true}));for(let i=0;i<hz*4;i++)clock.advance(1/hz);results.push(c);}for(const c of results){assert.ok(Math.abs(c.travel-results[0].travel)<.5);assert.ok(Math.abs(c.speed-results[0].speed)<.2);}});
+test('unassisted excess cornering demand reaches grip limit and states remain finite',()=>{const c=new FormulaCar();c.vz=-65;c.speed=65;run(c,.5,{steering:1,throttle:true,tractionControl:false,stability:false});assert.ok(c.slip>.5);for(const key of ['x','z','speed','heading','yawRate'])assert.ok(Number.isFinite(c[key]));});
